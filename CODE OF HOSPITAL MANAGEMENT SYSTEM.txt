@@ -1,0 +1,690 @@
+                                               ************HOSPITAL MANAGMENT SYSTEM PROJECT************
+PROJECT MEMBERS:
+Tayyab Saeed (2022-ag-8644)
+Jaweria Afzal(2022-ag-8586)
+
+WHOLE CODE OF PROJECT:
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                            WELCOME FORM
+
+............................................................................................................................................................................
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApp1
+{
+    public partial class Welcome : Form
+    {
+        public Welcome()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Login obj = new Login();
+            obj.Show();
+            this.Hide();
+        }
+
+        private void Welcome_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                           LOGIN FORM
+
+..................................................................................................................................................................
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApp1
+{
+    public partial class Login : Form
+    {
+        public Login()
+        {
+            InitializeComponent();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Admin.Text = "";
+            Password.Text = "";
+        }
+
+        private void Crossbtn_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void loginbtn_Click(object sender, EventArgs e)
+        {
+            if(Admin.Text==""&& Password.Text== " ")
+
+            {
+                MessageBox.Show("Missing Information");
+
+            }
+            else if ( Admin.Text=="JTproject"&& Password.Text=="12345678")
+
+            {
+                Home obj = new Home();
+                obj.Show();
+                this.Hide();
+
+            }
+
+            else
+            {
+                MessageBox.Show("Please Enter The Correct Username And Password");
+
+            }
+;
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Password_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Admin_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                        HOME FORM
+
+...........................................................................................................................................................................
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace WindowsFormsApp1
+{
+    public partial class Home : Form
+    {
+        public Home()
+        {
+            InitializeComponent();
+        }
+
+        private void Home_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LogoutBtn_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Hide();
+        }
+
+        private void Crossbtn_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void DocBtn_Click(object sender, EventArgs e)
+        {
+            Doctor obj = new Doctor();
+            obj.Show();
+            this.Hide();
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PatientBtn_Click(object sender, EventArgs e)
+        {
+            Patient obj = new Patient();
+            obj.Show();
+            this.Hide();
+        }
+
+        private void DiagBtn_Click(object sender, EventArgs e)
+        {
+            Diagnosis obj = new Diagnosis();
+            obj.Show();
+            this.Hide();
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                        DOCTOR FORM
+
+......................................................................................................................................................................................
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.OleDb;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Collections;
+using System.Diagnostics;
+namespace WindowsFormsApp1
+{
+    public partial class Doctor : Form
+    {
+        OleDbConnection conn;
+        OleDbCommand cmd;
+        OleDbDataAdapter adapter;
+        OleDbDataReader reader;
+        DataTable dt;
+        public Doctor()
+        {
+            InitializeComponent();
+        }
+        void GetDoctor()
+        {
+            // conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"C:\\Program Files\\Default Company Name\\setup1\\Doctor.accdb\"");
+            conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Doctor.accdb");
+
+            // conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"E:\\visual studio pro\\WindowsFormsApp1\\WindowsFormsApp1\\bin\\Debug\\Doctor.accdb\"");
+            dt = new DataTable();
+            adapter = new OleDbDataAdapter("SELECT* FROM Doctor", conn);
+            conn.Open();
+            adapter.Fill(dt);
+            dataGridView1.DataSource = dt;
+            conn.Close();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void HomeBtn_Click(object sender, EventArgs e)
+        {
+            Home obj = new Home();
+            obj.Show();
+            this.Hide();
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Doctor_Load(object sender, EventArgs e)
+        {
+            GetDoctor();
+        }
+
+        private void AddBtn_Click(object sender, EventArgs e)
+        {
+
+            string query =
+             "INSERT INTO Doctor(Name, DOB, [Year of Experience], [Medical Licensce No]) " +
+    "VALUES(@name, @dob, @year, @no)";
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@name", textBox4.Text);
+            cmd.Parameters.AddWithValue("@dob", dateTimePicker1);
+            cmd.Parameters.AddWithValue("@year", textBox3.Text);
+            cmd.Parameters.AddWithValue("@no", textBox5.Text);
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("INSERTED DATA");
+            GetDoctor();
+        }
+
+        private void UpdateBtn_Click(object sender, EventArgs e)
+        {
+            string query = "UPDATE Doctor " +
+               "SET Name = @name , DOB = @dob, [Year of Experience] = @year, [Medical Licensce No] = @no" +
+               " WHERE Id = @id";
+
+
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@name", textBox4.Text);
+            cmd.Parameters.AddWithValue("@dob", dateTimePicker1);
+            cmd.Parameters.AddWithValue("@year", textBox3.Text);
+            cmd.Parameters.AddWithValue("@no", textBox5.Text);
+            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(textBox1.Text));
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("UPDATE SUCCESSFULLY");
+            GetDoctor();
+        }
+
+        private void DelBtn_Click(object sender, EventArgs e)
+        {
+            string query = "DELETE FROM Doctor WHERE Id=@id";
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(textBox1.Text));
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("DELETE SUCCESSFULLY");
+            GetDoctor();
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
+
+        }
+
+        private void Restbtn_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            textBox4.Text = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+            dateTimePicker1.Text = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            textBox3.Text = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            textBox5.Text = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            DataView dv = dt.DefaultView;
+            dv.RowFilter = "NAME LIKE'%" + textBox2.Text + "'";
+            dataGridView1.DataSource = dv;
+
+        }
+
+        private void Crossbtn_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+        }
+    }
+}
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                     PATIENT FORM
+
+.............................................................................................................................................................................
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Data.OleDb;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Collections;
+using System.Drawing.Drawing2D;
+
+namespace WindowsFormsApp1
+{
+    public partial class Patient : Form
+    {
+        OleDbConnection conn;
+        OleDbCommand cmd;
+        OleDbDataAdapter adapter;
+        OleDbDataReader reader;
+        DataTable dt;
+        public Patient()
+        {
+            InitializeComponent();
+        }
+
+        void GetPatient()
+        {
+            //conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"C:\\Program Files\\Default Company Name\\setup1\\Patient.accdb\"");
+             conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Patient.accdb");
+
+            //conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"E:\\visual studio pro\\WindowsFormsApp1\\WindowsFormsApp1\\bin\\Debug\\Patient.accdb\"");
+            dt = new DataTable();
+            adapter = new OleDbDataAdapter("SELECT* FROM Patient", conn);
+            conn.Open();
+            adapter.Fill(dt);
+            dataGridView1.DataSource = dt;
+            conn.Close();
+        }
+        private void Patient_Load(object sender, EventArgs e)
+        {
+            GetPatient();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddBtn_Click(object sender, EventArgs e)
+        {
+            string query =
+          "INSERT INTO Patient(NAME, ADDRESS,AGE, [PHONE NO],GENDER, [BLOOD GROUP], [MAJOR DISEASE]) " +
+ "VALUES(@name, @add, @age, @no, @gender, @group, @disease)";
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@name", textBox4.Text);
+            cmd.Parameters.AddWithValue("@add",textBox6.Text );
+            cmd.Parameters.AddWithValue("@age", textBox3.Text);
+            cmd.Parameters.AddWithValue("@no", textBox5.Text);
+            cmd.Parameters.AddWithValue("@gender", comboBox2.Text);
+            cmd.Parameters.AddWithValue("@group", comboBox1.Text);
+            cmd.Parameters.AddWithValue("@disease", textBox2.Text);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("INSERTED DATA");
+            GetPatient();
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UpdateBtn_Click(object sender, EventArgs e)
+        {
+            string query = "UPDATE Patient " +
+              "SET NAME = @name, ADDRESS = @add, AGE= @age,[PHONE NO] = @no,GENDER = @gender, [BLOOD GROUP] = @group, [MAJOR DISEASE]= @disease " +
+              " WHERE Id = @id";
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@name", textBox4.Text);
+            cmd.Parameters.AddWithValue("@add", textBox6.Text);
+            cmd.Parameters.AddWithValue("@age", textBox3.Text);
+            cmd.Parameters.AddWithValue("@no", textBox5.Text);
+            cmd.Parameters.AddWithValue("@gender", comboBox2.Text);
+            cmd.Parameters.AddWithValue("@group", comboBox1.Text);
+            cmd.Parameters.AddWithValue("@disease", textBox2.Text);
+            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(textBox1.Text));
+
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("UPDATE SUCCESSFULLY");
+            GetPatient();
+        }
+
+        private void HomeBtn_Click(object sender, EventArgs e)
+        {
+            Home obj = new Home();
+            obj.Show();
+            this.Hide();
+        }
+
+        private void DelBtn_Click(object sender, EventArgs e)
+        {
+            string query = "DELETE FROM Patient WHERE Id=@id";
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(textBox1.Text));
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("DELETE SUCCESSFULLY");
+            GetPatient();
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            textBox4.Text = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+            textBox6.Text = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            textBox3.Text = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            textBox5.Text = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+            comboBox2.Text = dataGridView1.CurrentRow.Cells[5].Value.ToString();
+            comboBox1.Text = dataGridView1.CurrentRow.Cells[6].Value.ToString();
+            textBox2.Text = dataGridView1.CurrentRow.Cells[7].Value.ToString();
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+            DataView dv = dt.DefaultView;
+            dv.RowFilter = "NAME LIKE'%" + textBox7.Text + "'";
+            dataGridView1.DataSource = dv;
+
+        }
+
+        private void Crossbtn_Click(object sender, EventArgs e)
+        {
+        }
+    }
+}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                  DIAGONOSIS FORM
+
+.........................................................................................................................................................................
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.OleDb;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
+namespace WindowsFormsApp1
+{
+    public partial class Diagnosis : Form
+    {
+        OleDbConnection conn;
+        OleDbCommand cmd;
+        OleDbDataAdapter adapter;
+        OleDbDataReader reader;
+        DataTable dt;
+        public Diagnosis()
+        {
+            InitializeComponent();
+            
+
+
+        }
+        void GetDiagnosis()
+        {
+            //conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"C:\\Program Files\\Default Company Name\\setup1\\Diagnosis.accdb\"");
+                        conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=Diagnosis.accdb");
+
+
+            //conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"E:\\visual studio pro\\WindowsFormsApp1\\WindowsFormsApp1\\bin\\Debug\\Diagnosis.accdb\"");
+            dt = new DataTable();
+            adapter = new OleDbDataAdapter("SELECT* FROM Diagnosis",conn);
+            conn.Open();
+            adapter.Fill(dt);
+            dataGridView1.DataSource = dt;
+            conn.Close();
+        }
+      
+
+
+
+            private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Diagnosis_Load(object sender, EventArgs e)
+        {
+            GetDiagnosis();
+        }
+
+        private void HomeBtn_Click(object sender, EventArgs e)
+        {
+            Home obj = new Home();
+            obj.Show();
+            this.Hide();
+        }
+
+        private void AddBtn_Click(object sender, EventArgs e)
+        {
+            string query =
+           "INSERT INTO Diagnosis([Patient ID], [Patient Name], Symptoms, [Diagnosis Test],Medicine) " +
+  "VALUES(@pid, @name, sym, @test, @med)";
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@pid", comboBox1.Text);
+            cmd.Parameters.AddWithValue("@name", textBox4.Text);
+            cmd.Parameters.AddWithValue("@sym", textBox5.Text);
+            cmd.Parameters.AddWithValue("@test", textBox3.Text);
+            cmd.Parameters.AddWithValue("@med", textBox2.Text);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("INSERTED DATA");
+            GetDiagnosis();
+        }
+
+        private void UpdateBtn_Click(object sender, EventArgs e)
+        {
+            string query = "UPDATE Diagnosis " +
+             "SET [Patient ID] = @pid, [Patient Name] = @name,Symptoms = @sym, [Diagnosis Test] = @test, Medicine = @no" +
+             " WHERE Id = @id";
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@pid", comboBox1.Text);
+            cmd.Parameters.AddWithValue("@name", textBox4.Text);
+            cmd.Parameters.AddWithValue("@sym", textBox5.Text);
+            cmd.Parameters.AddWithValue("@test", textBox3.Text);
+            cmd.Parameters.AddWithValue("@med", textBox2.Text);
+            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(textBox1.Text));
+
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("UPDATE SUCESSFULLY");
+            GetDiagnosis();
+        }
+
+        private void DelBtn_Click(object sender, EventArgs e)
+        {
+            string query = "DELETE FROM Diagnosis WHERE Id=@id";
+            cmd = new OleDbCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", Convert.ToInt32(textBox1.Text));
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            MessageBox.Show("DELETE SUCCESSFULLY");
+            GetDiagnosis();
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+            DataView dv = dt.DefaultView;
+            dv.RowFilter = "[Patient Name] LIKE'%" + textBox7.Text + "'";
+            dataGridView1.DataSource = dv;
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            textBox1.Text = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            comboBox1.Text = dataGridView1.CurrentRow.Cells[1].Value.ToString();
+            textBox4.Text = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            textBox5.Text = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            textBox3.Text = dataGridView1.CurrentRow.Cells[4].Value.ToString();
+            textBox2.Text = dataGridView1.CurrentRow.Cells[5].Value.ToString();
+
+        }
+
+        private void Crossbtn_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+        }
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                       
+                                              THE END
+
+
